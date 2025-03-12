@@ -1,3 +1,4 @@
+import pytest
 from main import BooksCollector
 
 
@@ -28,8 +29,7 @@ class TestBooksCollector:
         coll_genre = BooksCollector()
         coll_genre.add_new_book('Гордость и предубеждение и зомби')
         coll_genre.set_book_genre('Гордость и предубеждение и зомби', 'Фантастика')
-        assert coll_genre.get_books_genre()[
-                   'Гордость и предубеждение и зомби'] == 'Фантастика'
+        assert coll_genre.get_books_genre()['Гордость и предубеждение и зомби'] == 'Фантастика'
 
     def test_get_book_genre_detective(self):
         coll_genre_detective = BooksCollector()
@@ -61,12 +61,12 @@ class TestBooksCollector:
         collector_children.set_book_genre('Маугли', 'Мультфильмы')
         assert collector_children.get_books_for_children() == ['Маугли']
 
-    def test_add_book_in_favorites_one_book(self):
+    @pytest.mark.parametrize('name', ['Десять негритят', 'Оно', 'Маугли', 'Пикник на обочине', 'Незнайка'])
+    def test_add_book_in_favorites_one_book(self, name):
         coll_favorite = BooksCollector()
-        coll_favorite.add_new_book('Десять негритят')
-        coll_favorite.set_book_genre('Десять негритят', 'Детективы')
-        coll_favorite.add_book_in_favorites('Десять негритят')
-        assert coll_favorite.get_list_of_favorites_books() == ['Десять негритят']
+        coll_favorite.add_new_book(name)
+        coll_favorite.add_book_in_favorites(name)
+        assert coll_favorite.get_list_of_favorites_books() == [name]
 
     def test_delete_book_from_favorites_two_books(self):
         coll_del_favorite = BooksCollector()
