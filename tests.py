@@ -33,25 +33,13 @@ class TestBooksCollector:
         book.set_book_genre('Десять негритят', 'Детективы')
         assert book.get_book_genre('Десять негритят') == 'Детективы'
 
-    def test_get_books_with_specific_genre_horrors(self, book):
-        book.add_new_book('Оно')
-        book.add_new_book('Десять негритят')
-        book.set_book_genre('Оно', 'Ужасы')
-        book.set_book_genre('Десять негритят', 'Детективы')
+    def test_get_books_with_specific_genre_horrors(self, book, get_books):
         assert book.get_books_with_specific_genre('Ужасы') == ['Оно']
 
-    def test_get_books_genre_two_books(self, book):
-        book.add_new_book('Оно')
-        book.add_new_book('Десять негритят')
-        book.set_book_genre('Оно', 'Ужасы')
-        book.set_book_genre('Десять негритят', 'Детективы')
-        assert book.get_books_genre() == {'Оно': 'Ужасы', 'Десять негритят': 'Детективы'}
+    def test_get_books_genre_two_books(self, book, get_books):
+        assert book.get_books_genre() == {'Оно': 'Ужасы', 'Маугли': 'Мультфильмы'}
 
-    def test_get_books_for_children_two_books(self, book):
-        book.add_new_book('Оно')
-        book.add_new_book('Маугли')
-        book.set_book_genre('Оно', 'Ужасы')
-        book.set_book_genre('Маугли', 'Мультфильмы')
+    def test_get_books_for_children_two_books(self, book, get_books):
         assert book.get_books_for_children() == ['Маугли']
 
     @pytest.mark.parametrize('name', ['Десять негритят', 'Оно', 'Маугли', 'Пикник на обочине', 'Незнайка'])
@@ -61,17 +49,13 @@ class TestBooksCollector:
         coll_favorite.add_book_in_favorites(name)
         assert coll_favorite.get_list_of_favorites_books() == [name]
 
-    def test_delete_book_from_favorites_two_books(self, book):
-        book.add_new_book('Оно')
-        book.add_new_book('Десять негритят')
+    def test_delete_book_from_favorites_two_books(self, book, get_books):
         book.add_book_in_favorites('Оно')
-        book.add_book_in_favorites('Десять негритят')
-        book.delete_book_from_favorites('Оно')
-        assert book.get_list_of_favorites_books() == ['Десять негритят']
+        book.add_book_in_favorites('Маугли')
+        book.delete_book_from_favorites('Маугли')
+        assert book.get_list_of_favorites_books() == ['Оно']
 
-    def test_get_list_of_favorites_books_two_books(self, book):
-        book.add_new_book('Оно')
-        book.add_new_book('Десять негритят')
+    def test_get_list_of_favorites_books_two_books(self, book, get_books):
         book.add_book_in_favorites('Оно')
-        book.add_book_in_favorites('Десять негритят')
+        book.add_book_in_favorites('Маугли')
         assert len(book.get_list_of_favorites_books()) == 2
