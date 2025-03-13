@@ -72,9 +72,15 @@ class TestBooksCollector:
         coll_del_favorite = BooksCollector()
         coll_del_favorite.add_new_book('Оно')
         coll_del_favorite.add_new_book('Десять негритят')
-        coll_del_favorite.set_book_genre('Оно', 'Ужасы')
-        coll_del_favorite.set_book_genre('Десять негритят', 'Детективы')
         coll_del_favorite.add_book_in_favorites('Оно')
         coll_del_favorite.add_book_in_favorites('Десять негритят')
         coll_del_favorite.delete_book_from_favorites('Оно')
         assert coll_del_favorite.get_list_of_favorites_books() == ['Десять негритят']
+
+    def test_get_list_of_favorites_books_two_books(self):
+        coll_get_favorite = BooksCollector()
+        coll_get_favorite.add_new_book('Оно')
+        coll_get_favorite.add_new_book('Десять негритят')
+        coll_get_favorite.add_book_in_favorites('Оно')
+        coll_get_favorite.add_book_in_favorites('Десять негритят')
+        assert len(coll_get_favorite.get_list_of_favorites_books()) == 2
